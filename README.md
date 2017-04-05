@@ -36,3 +36,14 @@ $ crontab -l
 # EOD of course is always after the above.
 30 16 * * 1-5 /usr/bin/curl http://localhost/performEOD > /dev/null 2>&1
 ```
+
+#### After cloning create a folder with structure like this
+
+1. /var/log/pse_monitor/raw_data/
+2. /var/log/pse_monitor/raw_data/processed
+
+
+#### Order of the routines:
+1. downloadCompaniesAndPrices.php - This gets the data from the upstream server and put into the raw data.
+2. harvestDownloadedCompaniesAndPrices.php - It harvests downloaded data.
+3. materializeRawDataPerMinute.php - materializes the data to make it usuable.
