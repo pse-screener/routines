@@ -47,3 +47,9 @@ $ crontab -l
 1. downloadCompaniesAndPrices.php - This gets the data from the upstream server and put into the raw data.
 2. harvestDownloadedCompaniesAndPrices.php - It harvests downloaded data.
 3. materializeRawDataPerMinute.php - materializes the data to make it usuable.
+
+Actually I do not use the above http request anymore but run it through php cli for security reasons.
+
+### References
+
+1. https://gonzalo123.com/2011/03/21/howto-sendread-smss-using-a-gsm-modem-at-commands-and-php/
