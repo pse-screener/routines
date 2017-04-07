@@ -41,6 +41,8 @@ $ crontab -l
 
 1. /var/log/pse_monitor/raw_data/
 2. /var/log/pse_monitor/raw_data/processed
+3. sudo chown -R /var/log/pse_monitor/raw_data/
+4. Then run the routines in order below.
 
 
 #### Order of the routines:
@@ -52,4 +54,10 @@ Actually I do not use the above http request anymore but run it through php cli 
 
 ### References
 
-1. https://gonzalo123.com/2011/03/21/howto-sendread-smss-using-a-gsm-modem-at-commands-and-php/
+1. https://routerunlock.com/send-command-usb-modem-using-putty/
+2. https://www.diafaan.com/sms-tutorials/gsm-modem-tutorial/at-cmgs-text-mode/
+3. https://gonzalo123.com/2011/03/21/howto-sendread-smss-using-a-gsm-modem-at-commands-and-php/
+
+### To connect to USB
+1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
+2. https://bugs.launchpad.net/ubuntu/+source/gtkterm/+bug/949597
