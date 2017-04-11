@@ -14,7 +14,7 @@ class Sms
 {
     private $_serial;
     private $debug;
-    protected $_pinOK = true;
+    protected $_pinOK = false;
     protected $openAT = false;
 
     const EXCEPTION_PIN_ERROR = 1;
@@ -117,6 +117,8 @@ class Sms
         if ($this->_pinOK) {
             $text = substr($text, 0, 160);
             $this->deviceOpen();
+            $this->setOpenAT(true);
+            print "openAT: $this->openAT\n";
             if ($this->openAT === true) {
                 $this->sendMessage("AT+CMGS=\"{$tlfn}\"\n");
                 $out = $this->readPort();
@@ -153,7 +155,7 @@ class Sms
      * @param Integer $pin
      * @return Sms
      */
-    public function insertPin_orig($pin)
+    public function insertPin($pin)
     {
         $this->deviceOpen();
 
@@ -175,27 +177,35 @@ class Sms
         }
 
         switch ($out) {
-            case "+CPIN: READY":
-            case "OK":
+            case "+CPIN: READY": print "Ni print ug READY.\n";
+            case "OK": print "Ni-print ug OK.\n";
                 $this->_pinOK = true;
                 break;
         }
 
-        if ($this->_pinOK === true) {
+        // file_put_contents('/tmp/serial.txt', "Okay.");
+
+        if ($this->_pinOK === true) {   print "true na here.";
             return $this;
         } else {
             throw new Exception("PIN ERROR ({$out})", self::EXCEPTION_PIN_ERROR);
         }
     }
 
-    public function insertPin($pin)
-    {
-       /* $this->deviceOpen();
-
+    public function checkStatus() {
+        $this->deviceOpen();
+        $this->sendMessage("ATi");
         $out = $this->readPort();
-        $this->deviceClose();*/
+        $this->deviceClose();
 
-        $this->_pinOK = true;
+        print "Out: $out\n";
+
+        switch ($out) {
+            case "+CPIN: READY": print "Ni-print ug READY.\n";
+            case "OK": print "Ni-print ug Okay.\n";
+                $this->_pinOK = true;
+                break;
+        }
 
         if ($this->_pinOK === true) {
             return $this;

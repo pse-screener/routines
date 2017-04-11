@@ -61,3 +61,25 @@ Actually I do not use the above http request anymore but run it through php cli 
 ### To connect to USB
 1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
 2. https://bugs.launchpad.net/ubuntu/+source/gtkterm/+bug/949597
+
+### To get the device name
+$ dmesg | grep tty
+
+### To monitor the device and show output.
+$ cat /dev/{the_device}
+
+### Sample SMS messaging
+
+The AT+CMGS command sends an SMS message to a GSM phone. In text mode this command is less powerful than in PDU mode but it is certainly easier to use.
+
+Parameters
+<CR> = ASCII character 13
+<CTRL-Z> = ASCII character 26
+<mr> = Message Reference
+
+AT+CMGF=1
+OK
+AT+CMGS="+639332162333"
+> This is the text message.→
++CMGS: 198
+OK

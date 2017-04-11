@@ -62,7 +62,7 @@ class Sms_Serial implements Sms_Interface
         if ($this->_dState !== self::SERIAL_DEVICE_OPENED) {
             if ($this->_os === "linux") {
                 if (preg_match("@^COM(\d+):?$@i", $device, $matches)) {
-                    $device = "/dev/ttyS" . ($matches[1] - 1);
+                    $device = "/dev/ttyUSB" . ($matches[1] - 1);
                 }
 
                 if ($this->_exec("stty -F " . $device) === 0) {
@@ -85,7 +85,7 @@ class Sms_Serial implements Sms_Interface
      * @param string $mode Opening mode : same parameter as fopen()
      * @return bool
      */
-    function deviceOpen($mode = "r+b")
+    function deviceOpen($mode = "r+")
     {
         if ($this->_dState === self::SERIAL_DEVICE_OPENED) {
             trigger_error("The device is already opened", E_USER_NOTICE);

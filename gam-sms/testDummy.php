@@ -8,8 +8,8 @@ $pin = 1234;
 
 $serial = new Sms_Dummy;
 
-// if (Sms::factory($serial)->insertPin($pin)->sendSMS(555987654, "test Hi")) {
-if (Sms::factory($serial)->insertPin($pin)->sendSMS("+639332162333", "test Hi")) {
+if (Sms::factory($serial)->insertPin($pin)
+                ->sendSMS(639332162333, "test Hi")) {
     echo "SMS sent\n";
 } else {
     echo "SMS not Sent\n";
