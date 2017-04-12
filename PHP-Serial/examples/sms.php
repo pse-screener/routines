@@ -10,25 +10,26 @@ $serial = new PhpSerial;
 // Device Manager properties pane (Advanced >> Advanced Port Settings...)
 
 $serial->deviceSet("/dev/ttyUSB2");
+// exit("Just exited!\n");
 
 // Then we need to open it
-$serial->deviceOpen('w+');	// returns true
+$serial->deviceOpen('r');	// returns true
 
 // We may need to return if nothing happens for 10 seconds
 stream_set_timeout($serial->_dHandle, 10);
 
 // We can change the baud rate
-$serial->confBaudRate(115200);
+$serial->confBaudRate(9600);
 
 // SMS inbox query - mode command and list command
-$serial->sendMessage("AT",1);
-var_dump($serial->readPort());
-$serial->sendMessage("AT+CMGF=1\n\r",1);
+$serial->sendMessage("ATI",1);
+print_r($serial->readPort());
+/*$serial->sendMessage("AT+CMGF=1\n\r",1);
 var_dump($serial->readPort());
 $serial->sendMessage("AT+CMGS=\"+639332162333\"\n\rThis is a test message from PHP-serial.",1);
 var_dump($serial->readPort());
-$serial->sendMessage("AT+CMGL=\"ALL\"\n\r",2);
-var_dump($serial->readPort());
+$serial->sendMessage("AT+CMGL=\"ALL\"\n\r",2);*/
+// var_dump($serial->readPort());
 
 // If you want to change the configuration, the device must be closed
 $serial->deviceClose();

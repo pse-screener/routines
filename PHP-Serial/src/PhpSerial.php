@@ -48,7 +48,7 @@ class PhpSerial
         if (substr($sysName, 0, 5) === "Linux") {
             $this->_os = "linux";
 
-            if ($this->_exec("stty") === 0) {
+            if ($this->_exec("stty") === 1) {
                 register_shutdown_function(array($this, "deviceClose"));
             } else {
                 trigger_error(
@@ -97,7 +97,7 @@ class PhpSerial
                     $this->_device = $device;
                     $this->_dState = SERIAL_DEVICE_SET;
 
-                    print "Returns $this->_dState.\n";
+                    print "SERIAL_DEVICE_SET=$this->_dState.\n";
 
                     return true;
                 }
@@ -171,6 +171,8 @@ class PhpSerial
             stream_set_blocking($this->_dHandle, 0);
             $this->_dState = SERIAL_DEVICE_OPENED;
 
+            print "SERIAL_DEVICE_OPENED: " . $this->_dState . "\n";
+
             return true;
         }
 
@@ -221,12 +223,12 @@ class PhpSerial
      */
     public function confBaudRate($rate)
     {
-        /*if ($this->_dState !== SERIAL_DEVICE_NOTSET) {
+        if ($this->_dState === SERIAL_DEVICE_NOTSET) {
             trigger_error("Unable to set the baud rate : the device is " .
                           "either not set or opened", E_USER_WARNING);
 
             return false;
-        }*/
+        }
 
         $validBauds = array (
             110    => 11,
@@ -245,10 +247,13 @@ class PhpSerial
 
         if (isset($validBauds[$rate])) {
             if ($this->_os === "linux") {
+                print "Set the baud rate.\n";
                 $ret = $this->_exec(
                     "stty -F " . $this->_device . " " . (int) $rate,
                     $out
                 );
+
+                print "Executed: $ret";
             } elseif ($this->_os === "osx") {
                 $ret = $this->_exec(
                     "stty -f " . $this->_device . " " . (int) $rate,
@@ -684,20 +689,31 @@ class PhpSerial
 
     public function _exec($cmd, &$out = null)
     {
-        $desc = array(
+        /*$desc = array(
             1 => array("pipe", "w"),
             2 => array("pipe", "w")
+        );*/
+
+        $desc = array(
+            0 => array('pipe', 'r'), // 0 is STDIN for process
+            1 => array('pipe', 'w'), // 1 is STDOUT for process
+            2 => array('file', '/tmp/php-serial_error.txt', 'a') // 2 is STDERR for process
         );
 
         $proc = proc_open($cmd, $desc, $pipes);
 
-        $ret = stream_get_contents($pipes[1]);
-        $err = stream_get_contents($pipes[2]);
+        print_r($pipes);
 
+        $ret = stream_get_contents($pipes[1]);
+        // $err = stream_get_contents($pipes[2]);
+
+        fclose($pipes[0]);
         fclose($pipes[1]);
-        fclose($pipes[2]);
+        // fclose($pipes[2]);
 
         $retVal = proc_close($proc);
+
+        print "proc_close(): $retVal\n";
 
         if (func_num_args() == 2) $out = array($ret, $err);
         return $retVal;
