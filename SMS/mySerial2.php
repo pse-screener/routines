@@ -1,6 +1,6 @@
 <?php
 
-include "../../SMS/Sms.php";
+include "Sms.php";
 
 $sms = new Sms;
 print "Set device: " . $sms->setDevice('/dev/ttyUSB2') . "\n";

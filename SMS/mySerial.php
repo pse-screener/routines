@@ -49,40 +49,47 @@ $retVal = proc_close($proc);
 print "proc_close(): $retVal\n";
 ////////////////////////////////////////////////////////
 
+stream_set_timeout($fopen, 20);
 
-$bytesWritten = fwrite($fopen, "ATi\n\r");
-print "Written ATi\n";
-/*$content = fread($fopen, 128);
-print "$content\n";*/
-// usleep((int) (0.1 * 1000000));
+$bytesWritten = fwrite($fopen, "ATI\r");
+print "Bytes Written: $bytesWritten\n";
+print "Written ATI\n";
 
-$bytesWritten = fwrite($fopen, "AT+CMGF=1\n\r");
-print "Written AT+CMGF=1\n";
-$bytesWritten = fwrite($fopen, "AT+CMGS=\"+639332162333\"\n\r");
-print "Written AT+CMGS\n";
-$bytesWritten = fwrite($fopen, "I love you Megan!" . chr(26) . "\n\r");
-/*usleep(2000000);
-$content = fread($fopen, 1028);
-print "$content\n";*/
+sleep(1);
 
+stream_set_blocking($fopen, false);
+$content = "";  $i = 0;
 
+do {
+// sleep(4);
+	$content .= fread($fopen, 132);
+	print "Sigeg basa...\n";
+} while (($i += 128) == strlen($content));
 
-// $bytesWritten = fwrite($fopen, "AT+CMGS=\"639332162333\"\n\r");
-/*print "Written bytes: $bytesWritten\n";
-$content = fread($fopen, 128);
-print "$content\n";*/
+print "Content: $content\n"; $content = "";
 
-// usleep((int) (0.1 * 1000000));
-
-/*$bytesWritten = fwrite($fopen, "This is a test message from PHP-serial." . chr(26) . "\n\r");
-sleep(7);
-print "Written bytes: $bytesWritten\n";
-$content = fread($fopen, 128);
-print "$content\n";*/
-
-/*$content = ""; $i = 0;
+// okay ni sya
+$bytesWritten = fwrite($fopen, "AT+CMGF=1\r");
 do {
 	$content .= fread($fopen, 128);
-} while (($i += 128) === strlen($content));
-*/
+	print "Sigeg basa...AT+CMGF\n";
+} while (($i += 128) == strlen($content));
+print "Content: $content\n"; $content = "";
+
+sleep(2);
+$bytesWritten = fwrite($fopen, "AT+CMGS=\"+639332162333\"\r");
+do {
+	$content .= fread($fopen, 128);
+	print "Sigeg basa...AT+CMGS\n";
+} while (($i += 128) == strlen($content));
+print "Content: $content\n"; $content = "";
+
+sleep(2);
+$bytesWritten = fwrite($fopen, "I love you Megan!" . chr(26) . "\r");
+do {
+	$content .= fread($fopen, 128);
+	print "Sigeg basa...Message.\n";
+} while (($i += 128) == strlen($content));
+print "Content: $content\n";;
+
 fclose($fopen);
