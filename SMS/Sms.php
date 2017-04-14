@@ -15,7 +15,7 @@ class Sms {
 	private $_device = null;	// Example: /dev/ttyUSB2
 	private $_handle = null;	// The resource object.
 
-	public $_delayInSeconds = 5;
+	public $delayInSeconds = 5;
 
 	public function __construct() {
 		setlocale(LC_ALL, "en_US");
@@ -141,7 +141,7 @@ class Sms {
 	}
 
 	public function getDeviceResponse() {
-		sleep($this->_delayInSeconds);	// I noticed this device have to wait for a couple of seconds.
+		sleep($this->delayInSeconds);	// I noticed this device has to wait for a couple of seconds.
 
 		$response = "";  $i = 0;
 
@@ -152,7 +152,9 @@ class Sms {
 		return trim($response);	// we trim here because there are other characters in the response other than Alphabet like \n.
 	}
 
-	public function sendCmd($cmd) {		
+	public function sendCmd($cmd) {
+		$cmd .= "\r";
+
 		if (fwrite($this->_handle, $cmd))
 			return true;
 		else
@@ -163,12 +165,12 @@ class Sms {
 		if (!$this->_checkDeviceState())
 			return false;
 
-		if ($this->sendCmd("AT+CMGF=1\r"))
+		if ($this->sendCmd("AT+CMGF=1"))
 			// we use preg_match() because some device outputs periodic messages
 			if (preg_match("/OK/", $this->getDeviceResponse()))
-				if ($this->sendCmd("AT+CMGS=\"$number\"\r"))
+				if ($this->sendCmd("AT+CMGS=\"$number\""))
 					if (preg_match("/>/", $this->getDeviceResponse()))
-						if ($this->sendCmd("$message".chr(26)."\r"))
+						if ($this->sendCmd("$message".chr(26)))
 							if (preg_match("/\+CMGS:\s+\d+[\r?\n]*OK/", $this->getDeviceResponse()))
 								return true;
 		
