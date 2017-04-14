@@ -4,6 +4,8 @@
 	At least PHP 5.3.
 */
 
+namespace Jsms;
+
 const DEVICE_NOT_SET = 0;
 const DEVICE_IS_SET = 1;
 const DEVICE_IS_OPEN = 2;
@@ -12,8 +14,8 @@ class Sms {
 
 	private $_os = "";
 	private $_deviceState = DEVICE_NOT_SET;
-	private $_device = null;	// Example: /dev/ttyUSB2
-	private $_handle = null;	// The resource object.
+	private $_device = null;
+	private $_handle = null;
 
 	public $delayInSeconds = 5;
 
@@ -55,11 +57,11 @@ class Sms {
 
 	private function _checkDeviceState() {
 		if ($this->_deviceState !== DEVICE_IS_OPEN) {
-            trigger_error("The device should be opened.\n", E_USER_WARNING);
-            return false;
-        }
+			trigger_error("The device should be opened.\n", E_USER_WARNING);
+			return false;
+		}
 
-        return true;
+		return true;
 	}
 
 	public function setDevice($device) {
@@ -82,22 +84,22 @@ class Sms {
 
 	public function openDevice($mode = "r+") {
 		if ($this->_deviceState === DEVICE_IS_OPEN) {
-            trigger_error("The device is already opened.\n", E_USER_NOTICE);
-            return true;
+			trigger_error("The device is already opened.\n", E_USER_NOTICE);
+			return true;
         }
 
-        if ($this->_deviceState === DEVICE_NOT_SET) {
-            trigger_error("The device must be set before opening.", E_USER_WARNING);
-            return false;
-        }
+		if ($this->_deviceState === DEVICE_NOT_SET) {
+			trigger_error("The device must be set before opening.", E_USER_WARNING);
+			return false;
+		}
 
-        $this->_handle = fopen($this->_device, $mode);
+		$this->_handle = fopen($this->_device, $mode);
 
-        if ($this->_handle !== false) {
-        	stream_set_timeout($this->_handle, 20);
-            stream_set_blocking($this->_handle, false);
-            $this->_deviceState = DEVICE_IS_OPEN;
-            return true;
+		if ($this->_handle !== false) {
+			stream_set_timeout($this->_handle, 20);
+			stream_set_blocking($this->_handle, false);
+			$this->_deviceState = DEVICE_IS_OPEN;
+			return true;
         }
 
         $this->_handle = null;
@@ -173,7 +175,7 @@ class Sms {
 						if ($this->sendCmd("$message".chr(26)))
 							if (preg_match("/\+CMGS:\s+\d+[\r?\n]*OK/", $this->getDeviceResponse()))
 								return true;
-		
+
 		return false;
 	}
 

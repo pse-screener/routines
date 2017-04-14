@@ -2,7 +2,7 @@
 
 include "Sms.php";
 
-$sms = new Sms;
+$sms = new Jsms\sms;
 $sms->delayInSeconds = 6;
 print "Set device: " . $sms->setDevice('/dev/ttyUSB2') . "\n";
 print "Open device: " . $sms->openDevice() . "\n";

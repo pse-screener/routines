@@ -32,7 +32,7 @@ $ crontab -l
 
 Actually I do not use the above http request anymore but run it through php cli for security reasons.
 
-### References
+#### References
 
 1. https://routerunlock.com/send-command-usb-modem-using-putty/
 2. https://www.diafaan.com/sms-tutorials/gsm-modem-tutorial/at-cmgs-text-mode/
@@ -40,25 +40,25 @@ Actually I do not use the above http request anymore but run it through php cli 
 4. https://www.sitepoint.com/proc-open-communicate-with-the-outside-world/
 5. http://www.smssolutions.net/tutorials/gsm/sendsmsat/
 
-### To connect to USB
+#### To connect to USB
 1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
 2. https://bugs.launchpad.net/ubuntu/+source/gtkterm/+bug/949597
 
-### To get the device name
+#### To get the device name
 $ dmesg | grep tty
 
-### To monitor the device and show output. This can be used with the php script being ran.
-$ cat /dev/{the_device}
-
-### To get access to the device
+#### To get access to the device
+```
 $ sudo adduser <your_user> dialout
 $ sudo chmod a+rw /dev/ttyUSB(X)
+```
 
-### Sample SMS messaging
+#### Sample SMS messaging
 
 The AT+CMGS command sends an SMS message to a GSM phone. In text mode this command is less powerful than in PDU mode but it is certainly easier to use.
 
 Parameters
+```
 <CR> = ASCII character 13
 <CTRL-Z> = ASCII character 26
 <mr> = Message Reference
@@ -69,8 +69,9 @@ AT+CMGS="+639332162333"
 > This is the text message.→
 +CMGS: 198
 OK
+```
 
-### To check and stop periodic messages
+#### To check and stop periodic messages
 ```
 AT^CURC? Current setting of periodic status messages
 AT^CURC=? See what you possible values are
