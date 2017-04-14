@@ -15,6 +15,8 @@ class Sms {
 	private $_device = null;	// Example: /dev/ttyUSB2
 	private $_handle = null;	// The resource object.
 
+	public $_delayInSeconds = 5;
+
 	public function __construct() {
 		setlocale(LC_ALL, "en_US");
 
@@ -92,7 +94,8 @@ class Sms {
         $this->_handle = fopen($this->_device, $mode);
 
         if ($this->_handle !== false) {
-            stream_set_blocking($this->_handle, 0);
+        	stream_set_timeout($this->_handle, 20);
+            stream_set_blocking($this->_handle, false);
             $this->_deviceState = DEVICE_IS_OPEN;
             return true;
         }
@@ -137,16 +140,39 @@ class Sms {
         }
 	}
 
+	public function getDeviceResponse() {
+		sleep($this->_delayInSeconds);	// I noticed this device have to wait for a couple of seconds.
+
+		$response = "";  $i = 0;
+
+		do {
+			$response .= fread($this->_handle, 128);
+		} while (($i += 128) == strlen($response));
+
+		return trim($response);	// we trim here because there are other characters in the response other than Alphabet like \n.
+	}
+
+	public function sendCmd($cmd) {		
+		if (fwrite($this->_handle, $cmd))
+			return true;
+		else
+			return false;
+	}
+
 	public function sendSMS($number, $message) {
 		if (!$this->_checkDeviceState())
 			return false;
 
-		fwrite($this->_handle, "AT+CMGF=1\n\r");
-		print "Written AT+CMGF=1\n";
-		fwrite($this->_handle, "AT+CMGS=\"$number\"\n\r");
-		print "Written AT+CMGS\n";
-		fwrite($this->_handle, "$message".chr(26)."\n\r");
-		print "Written the message.\n";
+		if ($this->sendCmd("AT+CMGF=1\r"))
+			// we use preg_match() because some device outputs periodic messages
+			if (preg_match("/OK/", $this->getDeviceResponse()))
+				if ($this->sendCmd("AT+CMGS=\"$number\"\r"))
+					if (preg_match("/>/", $this->getDeviceResponse()))
+						if ($this->sendCmd("$message".chr(26)."\r"))
+							if (preg_match("/\+CMGS:\s+\d+[\r?\n]*OK/", $this->getDeviceResponse()))
+								return true;
+		
+		return false;
 	}
 
 	public function closeDevice() {
@@ -160,7 +186,7 @@ class Sms {
             return true;
 		}
 
-		trigger_error("Cannot close the device", E_USER_ERROR);
+		trigger_error("Cannot close the device.\n", E_USER_ERROR);
         return false;
 	}
 }
