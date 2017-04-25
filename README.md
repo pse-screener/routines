@@ -33,12 +33,10 @@ $ crontab -l
 Actually I do not use the above http request anymore but run it through php cli for security reasons.
 
 #### References
-
-1. https://routerunlock.com/send-command-usb-modem-using-putty/
-2. https://www.diafaan.com/sms-tutorials/gsm-modem-tutorial/at-cmgs-text-mode/
-3. https://gonzalo123.com/2011/03/21/howto-sendread-smss-using-a-gsm-modem-at-commands-and-php/
-4. https://www.sitepoint.com/proc-open-communicate-with-the-outside-world/
-5. http://www.smssolutions.net/tutorials/gsm/sendsmsat/
+1. https://www.diafaan.com/sms-tutorials/gsm-modem-tutorial/at-cmgs-text-mode/
+2. https://gonzalo123.com/2011/03/21/howto-sendread-smss-using-a-gsm-modem-at-commands-and-php/
+3. https://www.sitepoint.com/proc-open-communicate-with-the-outside-world/
+4. http://www.smssolutions.net/tutorials/gsm/sendsmsat/
 
 #### To connect to USB
 1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
