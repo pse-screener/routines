@@ -1,5 +1,7 @@
 <?php
 
+/* This is run if there are lacking date like if wasn't able to pull the data from the upstream. */
+
 if (!isset($argv[1]))
 	exit("\nError. Sample usage: php $argv[0] 2017-04-31\n\n");
 
