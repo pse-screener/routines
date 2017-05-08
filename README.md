@@ -1,14 +1,14 @@
-# Routines
+## Routines
 
 ```
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
-* 9-11 * * 1-5          /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
+* 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
 # > /dev/null 2>&1
 
 0-3 12 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
-0-3 12 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
-0-3 12 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
+0-4 12 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
+0-5 12 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
 # > /dev/null 2>&1
 
 30-59 13 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
@@ -22,17 +22,17 @@
 # /dev/null 2>&1
 
 0-33 15 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
-0-33 15 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
-0-33 15 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
+0-34 15 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
+0-35 15 * * 1-5   /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
 # /dev/null 2>&1
 
-34 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeForPerCompanyPerTradingDay.php
+36 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeForPerCompanyPerTradingDay.php
 
 # Send SMS alert at the end of the trading day.
-35 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendDailyAlertsToSubscribers.php
+37 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendDailyAlertsToSubscribers.php
 
 # Alert the administrator if the load is about to expire or the number of sms sent is about to reach its allowed.
-36 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/alertAdministratorLoadStatus.php
+38 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/alertAdministratorLoadStatus.php
 ```
 
 #### After cloning create a folder with structure like this
