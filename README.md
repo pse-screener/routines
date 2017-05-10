@@ -80,7 +80,7 @@ AT^CURC=0 turn off periodic status messages
 AT+CMGF=1
 OK
 AT+CMGS="09332162333"
->sdfsdfs
+>Message.
 <CTRL-Z>
 +CMGS: 62 or +CMS ERROR: 500
 ```
