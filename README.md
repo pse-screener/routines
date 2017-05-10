@@ -75,3 +75,12 @@ AT^CURC? Current setting of periodic status messages
 AT^CURC=? See what you possible values are
 AT^CURC=0 turn off periodic status messages
 ```
+
+```
+AT+CMGF=1
+OK
+AT+CMGS="09332162333"
+>sdfsdfs
+<CTRL-Z>
++CMGS: 62 or +CMS ERROR: 500
+```
