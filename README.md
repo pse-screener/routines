@@ -76,6 +76,7 @@ AT^CURC=? See what you possible values are
 AT^CURC=0 turn off periodic status messages
 ```
 
+#### Texting
 ```
 AT+CMGF=1
 OK
