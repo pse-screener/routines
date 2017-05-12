@@ -1,4 +1,4 @@
-## Routines
+### Routines
 
 ```
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
@@ -28,11 +28,14 @@
 
 36 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeForPerCompanyPerTradingDay.php
 
-# Send SMS alert at the end of the trading day.
+# Generates the SMS alert to be sent at the end of the trading day.
 37 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendDailyAlertsToSubscribers.php
 
 # Alert the administrator if the load is about to expire or the number of sms sent is about to reach its allowed.
 38 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/alertAdministratorLoadStatus.php
+
+# Responsible in sending SMS message.
+* 9-15  * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendSmsMessages.php
 ```
 
 #### After cloning create a folder with structure like this
