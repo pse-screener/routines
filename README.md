@@ -47,17 +47,21 @@
 5. Then run the routines in order below.
 
 
-#### Normal order of routines:
+#### Normal order:
 1. downloadCompaniesAndPrices.php
 2. harvestDownloadedCompaniesAndPrices.php
 3. materializeRawDataPerMinute.php
 4. materializeForPerCompanyPerTradingDay.php
 
-#### If there are lacking days
+#### If there are lacking days (not current date)
 1. downloadCompaniesAndPricesByDate.php
 2. harvestDownloadedCompaniesAndPricesPerCompany.php
 3. materializeRawDataPerMinute.php
 4. materializeForPerCompanyPerTradingDay.php
+
+#### If current date is missing
+1. downloadCompaniesAndPricesByCurrentDate.php
+2. Following from #2 to #4 of normal orders.
 
 #### To connect to USB
 1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
