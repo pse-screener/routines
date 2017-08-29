@@ -1,6 +1,7 @@
 ### Routines
 
 ```
+# m h  dom mon dow   command
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/downloadCompaniesAndPrices.php
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/harvestDownloadedCompaniesAndPrices.php
 * 9-11 * * 1-5    /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/materializeRawDataPerMinute.php
@@ -35,7 +36,8 @@
 38 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/alertAdministratorLoadStatus.php
 
 # Responsible in sending SMS message.
-* 9-15  * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendSmsMessages.php
+37-59/4 15 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendSmsMessages.php
+0-30/4 16 * * 1-5      /usr/bin/php /var/www/pmorcilladev/pse_screener/routines/sendSmsMessages.php
 ```
 
 #### After cloning create a folder with structure like this
@@ -63,9 +65,14 @@
 1. downloadCompaniesAndPricesByCurrentDate.php
 2. Following from #2 to #4 of normal orders.
 
-#### To connect to USB
+#### Troubleshooting guides
 1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
 2. https://bugs.launchpad.net/ubuntu/+source/gtkterm/+bug/949597
+3. If the device isn't being detected try 
+```
+sudo apt-get remove modemmanager
+sudo apt-get install modemmanager
+```
 
 #### To get the device name
 $ dmesg | grep tty
