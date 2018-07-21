@@ -340,7 +340,7 @@ class PhpSerial
     }
 
     /**
-     * Sets the length of a character.
+     * Sets the length of a character. Set the data bits.
      *
      * @param  int  $int length of a character (5 <= length <= 8)
      * @return bool
