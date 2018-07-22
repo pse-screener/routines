@@ -5,32 +5,38 @@
 31,45,57 9 * * 1-5    /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 32,46,58 9 * * 1-5    /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 33,47,59 9 * * 1-5    /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+35,49,55 9 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 # > /dev/null 2>&1
 
 0,15,30,45,57 10-11 * * 1-5    /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 1,16,31,46,58 10-11 * * 1-5    /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 2,17,32,47,59 10-11 * * 1-5    /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+0,4,19,34,49,55 10-11 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 # > /dev/null 2>&1
 
 2 12 * * 1-5    /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 3 12 * * 1-5    /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 4 12 * * 1-5    /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+0,6 12 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 # > /dev/null 2>&1
 
 31,45,57 13 * * 1-5   /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 32,46,58 13 * * 1-5   /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 33,47,59 13 * * 1-5   /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+35,49,55 13 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 
 # > /dev/null 2>&1
 
 0,15,30,45,57 14 * * 1-5   /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 1,16,31,46,58 14 * * 1-5   /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 2,17,32,47,59 14 * * 1-5 /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+0,19,34,49,55 14 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 # /dev/null 2>&1
 
 0,15,31 15 * * 1-5   /usr/bin/php /var/www/production/routines/downloadCompaniesAndPrices.php
 1,16,32 15 * * 1-5   /usr/bin/php /var/www/production/routines/harvestDownloadedCompaniesAndPrices.php
 2,17,33 15 * * 1-5   /usr/bin/php /var/www/production/routines/materializeRawDataPerMinute.php
+0,4,19 15 * * 1-5    /usr/bin/php /var/www/production/routines/sendPerMinuteAlertsToSubscribers.php
 
 34 15 * * 1-5      /usr/bin/php /var/www/production/routines/materializeForPerCompanyPerTradingDay.php
 
@@ -71,30 +77,11 @@ $ php sendDailyAlertsToSubscribers.php
 ```
 
 #### Troubleshooting guides
-1. https://brunomgalmeida.wordpress.com/2012/04/06/send-at-commands-to-usb-modem/
-2. https://bugs.launchpad.net/ubuntu/+source/gtkterm/+bug/949597
-3. If the device isn't being detected try 
-```
-sudo apt-get remove modemmanager
-sudo apt-get install modemmanager
-```
-4. If running `$ php downloadCompaniesAndPricesByCurrentDate.php`, produce similar error like this,
+1. If running `$ php downloadCompaniesAndPricesByCurrentDate.php`, produce similar error like this,
 ```
 PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'The stream or file "/var/www/production/api/storage/logs/laravel.log" could not be opened: failed to open stream: Permission denied' in /var/www/production/api/bootstrap/cache/compiled.php:14181
 ```
-run it as www-data.
-5. Note that we do not run the scripts from 9:30 to 3:30 anymore. Check the current crontab instead.
-
-#### To get the device name
-$ dmesg | grep tty
-$ minicom
-# car /dev/ttyUSB1
-
-#### To get access to the device
-```
-$ sudo adduser <your_user> dialout
-$ sudo chmod a+rw /dev/ttyUSB(X)
-```
+run it as www-data. Check to run routine below.
 
 #### To check and stop periodic messages
 ```
@@ -102,6 +89,7 @@ AT^CURC? Current setting of periodic status messages
 AT^CURC=? Check what possible values are
 AT^CURC=0 turn off periodic status messages
 ```
+In the current setup, these don't need them anymore.
 
 #### Texting
 ```
@@ -119,4 +107,19 @@ or +CMS ERROR: 500
 Sample
 ```
 sudo -u www-data /usr/bin/php /var/www/production/routines/materializeForPerCompanyPerTradingDay.php
+```
+
+##### Others
+```
+AT+CMGF=1
+OK
+AT+CMGS="3545"
+> UAT30
++CMGS: 98
+
+OK
+
++CMTI: "SM",14
+
++CMTI: "SM",15
 ```
